@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="zavrsnirad.posudbaopremeizlabosa.ProfilStudentaController">
+    <children>
+        <VBox layoutX="62.0" layoutY="69.0" prefHeight="240.0" prefWidth="54.0" spacing="15.0">
+            <children>
+                <Label text="JMBAG">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Prezime">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Ime">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Studij">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label text="E-Mail">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Telefon">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <VBox layoutX="127.0" layoutY="69.0" prefHeight="240.0" prefWidth="170.0" spacing="15.0">
+         <children>
+            <Label fx:id="lbJMBAG" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbPrezime" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbIme" layoutX="10.0" layoutY="45.0" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbStudij" layoutX="10.0" layoutY="80.0" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbEmail" layoutX="10.0" layoutY="115.0" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTelefon" layoutX="10.0" layoutY="150.0" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+        </VBox>
+        <TableView fx:id="tvPosudenaOprema" layoutX="319.0" layoutY="69.0" onMouseClicked="#pritisakMisaPosudeno" prefHeight="207.0" prefWidth="674.0">
+            <columns>
+                <TableColumn fx:id="colIDPosudeno" prefWidth="68.0" text="ID" />
+                <TableColumn fx:id="colNazivPosudeno" prefWidth="165.0" text="Naziv" />
+                <TableColumn fx:id="colDetaljiPosudeno" prefWidth="360.0" text="Detalji" />
+                <TableColumn fx:id="colKolicinaPosudeno" text="Količina" />
+            </columns>
+        </TableView>
+      <Label layoutX="319.0" layoutY="49.0" text="Tablica posuđene opreme studentu">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tvDostupnaOprema" layoutX="319.0" layoutY="309.0" onMouseClicked="#pritisakMisaDostupno" prefHeight="207.0" prefWidth="674.0">
+         <columns>
+            <TableColumn fx:id="colIDDostupno" prefWidth="68.0" text="ID" />
+            <TableColumn fx:id="colNazivDostupno" prefWidth="165.0" text="Naziv" />
+            <TableColumn fx:id="colDetaljiDostupno" prefWidth="360.0" text="Detalji" />
+            <TableColumn fx:id="colKolicinaDostupno" text="Količina" />
+         </columns>
+      </TableView>
+      <Label layoutX="319.0" layoutY="290.0" text="Tablica dostupne opreme">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <VBox layoutX="62.0" layoutY="310.0" prefHeight="137.0" prefWidth="54.0" spacing="15.0">
+         <children>
+            <Label text="ID">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Naziv">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Detalji">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Količina">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="127.0" layoutY="309.0" prefHeight="137.0" prefWidth="170.0" spacing="10.0">
+         <children>
+            <TextField fx:id="tfID" />
+            <TextField fx:id="tfNaziv" />
+            <TextField fx:id="tfDetalji" />
+            <TextField fx:id="tfKolicina" />
+         </children>
+      </VBox>
+      <Button fx:id="btnUnesi" layoutX="127.0" layoutY="457.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="77.0" text="Unesi" />
+      <Button fx:id="btnIzbrisi" layoutX="220.0" layoutY="457.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="77.0" text="Izbriši" />
+      <Button layoutX="127.0" layoutY="491.0" mnemonicParsing="false" onAction="#promijeniNaPopisStudenata" prefHeight="25.0" prefWidth="170.0" text="Popis studenata" />
+    </children>
+</AnchorPane>

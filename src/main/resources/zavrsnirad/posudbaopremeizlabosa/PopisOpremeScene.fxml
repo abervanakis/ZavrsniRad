@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="zavrsnirad.posudbaopremeizlabosa.PopisOpremeController">
+   <children>
+      <TableView fx:id="tvOprema" layoutX="319.0" layoutY="69.0" onMouseClicked="#pritisakMisa" prefHeight="347.0" prefWidth="674.0">
+        <columns>
+          <TableColumn fx:id="colID" prefWidth="68.0" text="ID" />
+          <TableColumn fx:id="colNaziv" prefWidth="165.0" text="Naziv" />
+            <TableColumn fx:id="colDetalji" prefWidth="360.0" text="Detalji" />
+            <TableColumn fx:id="colKolicina" text="Količina" />
+        </columns>
+      </TableView>
+      <VBox layoutX="62.0" layoutY="69.0" prefHeight="240.0" prefWidth="54.0" spacing="15.0">
+         <children>
+            <Label text="ID">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Naziv">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Detalji">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="80.0" text="Količina">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="127.0" layoutY="69.0" prefHeight="207.0" prefWidth="170.0" spacing="10.0">
+         <children>
+            <TextField fx:id="tfID" />
+            <TextField fx:id="tfNaziv" />
+            <TextField fx:id="tfDetalji" />
+            <TextField fx:id="tfKolicina" layoutX="10.0" layoutY="80.0" />
+         </children>
+      </VBox>
+      <Button layoutX="127.0" layoutY="342.0" mnemonicParsing="false" onAction="#promijeniNaPopisStudenata" prefHeight="25.0" prefWidth="170.0" text="Popis studenata" />
+      <Button fx:id="btnIzbrisi" layoutX="220.0" layoutY="309.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="77.0" text="Izbriši" />
+      <Button fx:id="btnAzuriraj" layoutX="127.0" layoutY="309.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="77.0" text="Ažuriraj" />
+      <Button fx:id="btnUnesiPodatke" layoutX="127.0" layoutY="276.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="170.0" text="Unesi podatke" />
+   </children>
+</AnchorPane>

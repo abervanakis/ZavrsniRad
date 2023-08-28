@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="zavrsnirad.posudbaopremeizlabosa.PopisStudenataController">
+   <children>
+      <VBox layoutX="62.0" layoutY="69.0" prefHeight="240.0" prefWidth="54.0" spacing="15.0">
+         <children>
+            <Label text="JMBAG">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Prezime">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Ime">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Studij">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="E-Mail">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Telefon">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="127.0" layoutY="69.0" prefHeight="207.0" prefWidth="170.0" spacing="10.0">
+         <children>
+            <TextField fx:id="tfJMBAG" />
+            <TextField fx:id="tfPrezime" />
+            <TextField fx:id="tfIme" />
+            <TextField fx:id="tfStudij" />
+            <TextField fx:id="tfEmail" />
+            <TextField fx:id="tfTelefon" />
+         </children>
+      </VBox>
+      <TableView fx:id="tvStudenti" layoutX="319.0" layoutY="69.0" onMouseClicked="#pritisakMisa" prefHeight="347.0" prefWidth="674.0">
+         <columns>
+            <TableColumn fx:id="colJMBAG" prefWidth="102.0" text="JMBAG" />
+            <TableColumn fx:id="colPrezime" prefWidth="82.0" text="Prezime" />
+            <TableColumn fx:id="colIme" prefWidth="91.0" text="Ime" />
+            <TableColumn fx:id="colStudij" prefWidth="209.0" text="Studij" />
+            <TableColumn fx:id="colEmail" minWidth="5.0" prefWidth="105.0" text="E-Mail" />
+            <TableColumn fx:id="colTelefon" minWidth="0.0" prefWidth="84.0" text="Telefon" />
+         </columns>
+      </TableView>
+      <Button fx:id="btnUnesiPodatkeIzExcela" layoutX="127.0" layoutY="413.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="170.0" text="Unesi podatke iz Excela" />
+      <Button fx:id="btnAzuriraj" layoutX="127.0" layoutY="309.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="77.0" text="Ažuriraj" />
+      <Button fx:id="btnIzbrisi" layoutX="220.0" layoutY="309.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="77.0" text="Izbriši" />
+      <Button layoutX="127.0" layoutY="341.0" mnemonicParsing="false" onAction="#promijeniNaPopisOpreme" prefHeight="25.0" prefWidth="170.0" text="Popis opreme" />
+      <Button layoutX="127.0" layoutY="377.0" mnemonicParsing="false" onAction="#promijeniNaProfilStudenta" prefHeight="25.0" prefWidth="170.0" text="Profil studenta" />
+      <Button fx:id="btnUnesiPodatke" layoutX="127.0" layoutY="276.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="170.0" text="Unesi podatke" />
+      <TextField fx:id="tfSearch" layoutX="319.0" layoutY="35.0" promptText="Search" />
+   </children>
+</AnchorPane>
