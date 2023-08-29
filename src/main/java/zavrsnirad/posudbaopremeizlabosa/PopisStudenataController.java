@@ -1,6 +1,5 @@
 package zavrsnirad.posudbaopremeizlabosa;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -21,12 +20,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.DirectoryStream;
 import java.sql.*;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-import zavrsnirad.posudbaopremeizlabosa.dao.Database;
 import zavrsnirad.posudbaopremeizlabosa.dao.PopisStudenataDAOImpl;
 import zavrsnirad.posudbaopremeizlabosa.dao.StudentDAO;
 import zavrsnirad.posudbaopremeizlabosa.model.Student;
@@ -79,16 +76,6 @@ public class PopisStudenataController extends Excel implements Initializable {
         window.show();
     }
 
-    /*public void promijeniNaProfilStudenta(ActionEvent event) throws IOException {
-        Parent profilStudenta = FXMLLoader.load(getClass().getResource("ProfilStudentaScene.fxml"));
-        Scene profilStudentaScene = new Scene(profilStudenta);
-
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
-        window.setScene(profilStudentaScene);
-        window.show();
-    }*/
-
     public void promijeniNaProfilStudenta(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("ProfilStudentaScene.fxml"));
@@ -116,8 +103,6 @@ public class PopisStudenataController extends Excel implements Initializable {
         tfEmail.setText(student.getEmail());
         tfTelefon.setText(student.getTelefon());
     }
-
-
     @FXML
     protected void pritisakGumba(ActionEvent event) throws IOException, SQLException {
 
@@ -127,17 +112,14 @@ public class PopisStudenataController extends Excel implements Initializable {
         if(event.getSource().equals(btnUnesiPodatke)){
             studentDAO.unesiPodatke(student);
             pokaziListuStudenata();
-            //unesiPodatke();
         }
         else if(event.getSource().equals(btnAzuriraj)){
             studentDAO.azurirajPodatke(student);
             pokaziListuStudenata();
-            //azurirajPodatke();
         }
         else if(event.getSource().equals(btnIzbrisi)){
             studentDAO.izbrisiPodatke(student);
             pokaziListuStudenata();
-            //izbrisiPodatke();
         }
         else if(event.getSource().equals(btnUnesiPodatkeIzExcela)) {
             unesiPodatkeIzExcela();
@@ -202,40 +184,6 @@ public class PopisStudenataController extends Excel implements Initializable {
 
     }
 
-/*
-    public Connection getConnection() {
-        Connection connection;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/posudba-opreme-iz-labosa", "root", "passRootworD");
-            return connection;
-        } catch (Exception e){
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }*/
-/*
-    public ObservableList<Student> dohvatiListuStudenata() throws SQLException {
-        ObservableList<Student> listaStudenata = FXCollections.observableArrayList();
-        Connection connection = Database.getConnection();
-        String query = "SELECT * FROM studenti";
-        Statement statement;
-        ResultSet resultSet;
-
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
-            Student student;
-            while (resultSet.next()){
-                //tu stvaramo studente
-                student = new Student(resultSet.getInt("JMBAG"), resultSet.getString("prezime"), resultSet.getString("ime"), resultSet.getString("studij"), resultSet.getString("email"), resultSet.getString("telefon"));
-                listaStudenata.add(student);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listaStudenata;
-    }*/
-
     public void pokaziListuStudenata() throws SQLException {
         StudentDAO studentDAO = new PopisStudenataDAOImpl();
         ObservableList<Student> listaStudenata = studentDAO.dohvatiListuStudenata();
@@ -249,36 +197,4 @@ public class PopisStudenataController extends Excel implements Initializable {
 
         tvStudenti.setItems(listaStudenata);
     }
-/*
-    private void unesiPodatke() throws SQLException {
-        String query = "INSERT INTO studenti VALUES (" + tfJMBAG.getText() + ",'" + tfPrezime.getText() + "','"
-                + tfIme.getText() + "','" + tfStudij.getText() + "','" + tfEmail.getText() + "','" + tfTelefon.getText() + "')";
-        izvrsiQuery(query);
-        pokaziListuStudenata();
-    }
-
-    private void azurirajPodatke() throws SQLException {
-        String query = "UPDATE studenti SET prezime = '" + tfPrezime.getText() + "', ime = '" +
-                tfIme.getText() + "', studij = '" + tfStudij.getText() + "', email = '" +
-                tfEmail.getText() + "', telefon = '" + tfTelefon.getText() + "' WHERE JMBAG = " + tfJMBAG.getText() + "";
-        izvrsiQuery(query);
-        pokaziListuStudenata();
-    }
-
-    private void izbrisiPodatke() throws SQLException {
-        String query = "DELETE FROM studenti WHERE JMBAG =" + tfJMBAG.getText() + "";
-        izvrsiQuery(query);
-        pokaziListuStudenata();
-    }
-
-    private void izvrsiQuery(String query) throws SQLException {
-        Connection connection = Database.getConnection();
-        Statement statement;
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(query);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }*/
 }

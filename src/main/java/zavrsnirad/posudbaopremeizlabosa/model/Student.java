@@ -1,7 +1,5 @@
 package zavrsnirad.posudbaopremeizlabosa.model;
 
-import java.util.List;
-
 public class Student {
     private Integer JMBAG;
     private String prezime;

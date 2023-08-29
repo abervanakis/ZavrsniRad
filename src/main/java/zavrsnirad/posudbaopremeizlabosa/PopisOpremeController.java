@@ -1,6 +1,5 @@
 package zavrsnirad.posudbaopremeizlabosa;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,11 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import zavrsnirad.posudbaopremeizlabosa.dao.OpremaDAO;
 import zavrsnirad.posudbaopremeizlabosa.dao.PopisOpremeDAOImpl;
-import zavrsnirad.posudbaopremeizlabosa.dao.PopisStudenataDAOImpl;
-import zavrsnirad.posudbaopremeizlabosa.dao.StudentDAO;
 import zavrsnirad.posudbaopremeizlabosa.model.Oprema;
 import zavrsnirad.posudbaopremeizlabosa.model.Student;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -82,17 +78,14 @@ public class PopisOpremeController implements Initializable {
         if(event.getSource().equals(btnUnesiPodatke)){
             opremaDAO.unesiPodatke(oprema);
             pokaziListuOpreme();
-            //unesiPodatke();
         }
         else if(event.getSource().equals(btnAzuriraj)){
             opremaDAO.azurirajPodatke(oprema);
             pokaziListuOpreme();
-            //azurirajPodatke();
         }
         else if(event.getSource().equals(btnIzbrisi)){
             opremaDAO.izbrisiPodatke(oprema);
             pokaziListuOpreme();
-            //izbrisiPodatke();
         }
     }
 
@@ -105,38 +98,6 @@ public class PopisOpremeController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-/*
-    public Connection getConnection() {
-        Connection connection;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/posudba-opreme-iz-labosa", "root", "passRootworD");
-            return connection;
-        } catch (Exception e){
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }*/
-/*
-    public ObservableList<Oprema> dohvatiListuOpreme() {
-        ObservableList<Oprema> listaOpreme = FXCollections.observableArrayList();
-        Connection connection = getConnection();
-        String query = "SELECT * FROM oprema";
-        Statement statement;
-        ResultSet resultSet;
-
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
-            Oprema oprema;
-            while (resultSet.next()){
-                oprema = new Oprema(resultSet.getInt("id"), resultSet.getString("naziv"), resultSet.getString("detalji"), resultSet.getInt("kolicina"), null);
-                listaOpreme.add(oprema);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listaOpreme;
-    }*/
 
     public void pokaziListuOpreme() throws SQLException {
         OpremaDAO opremaDAO = new PopisOpremeDAOImpl();
@@ -149,34 +110,4 @@ public class PopisOpremeController implements Initializable {
 
         tvOprema.setItems(listaOpreme);
     }
-/*
-    private void unesiPodatke() {
-        String query = "INSERT INTO oprema VALUES (" +tfID.getText() + ",'" + tfNaziv.getText() + "','" + tfDetalji.getText() + "',"
-                + tfKolicina.getText() + ")";
-        izvrsiQuery(query);
-        pokaziListuOpreme();
-    }*/
-/*
-    private void azurirajPodatke() throws SQLException {
-        String query = "UPDATE oprema SET naziv = '" + tfNaziv.getText() + "', detalji = '" +
-                tfDetalji.getText() + "', kolicina = " + tfKolicina.getText() + " WHERE id = " + tfID.getText() + "";
-        izvrsiQuery(query);
-        pokaziListuOpreme();
-    }*//*
-    private void izbrisiPodatke() throws SQLException {
-        String query = "DELETE FROM oprema WHERE id =" + tfID.getText() + "";
-        izvrsiQuery(query);
-        pokaziListuOpreme();
-    }*/
-/*
-    private void izvrsiQuery(String query) {
-        Connection connection = getConnection();
-        Statement statement;
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(query);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }*/
 }

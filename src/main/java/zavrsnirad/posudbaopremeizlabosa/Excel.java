@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -49,17 +48,7 @@ public class Excel {
             izvrsiQuery(query);
             i++;
         }
-    }/*
-    public Connection getConnection() {
-        Connection connection;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/posudba-opreme-iz-labosa", "root", "passRootworD");
-            return connection;
-        } catch (Exception e){
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }*/
+    }
     private void izvrsiQuery(String query) throws SQLException {
         Connection connection = Database.getConnection();
         Statement statement;
