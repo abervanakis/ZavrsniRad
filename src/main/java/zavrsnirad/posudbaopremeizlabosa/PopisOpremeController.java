@@ -8,10 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -75,6 +72,15 @@ public class PopisOpremeController implements Initializable {
         OpremaDAO opremaDAO = new PopisOpremeDAOImpl();
         Oprema oprema = new Oprema(Integer.parseInt(tfID.getText()), tfNaziv.getText(), tfDetalji.getText(), Integer.parseInt(tfKolicina.getText()), null);
 
+        ObservableList<Oprema> listaOpreme = opremaDAO.dohvatiListuPosudeneOpreme();
+        boolean opremaJePosudena = false;
+        for(Oprema posudenaOprema : listaOpreme) {
+            if(posudenaOprema.getId().equals(oprema.getId())) {
+                opremaJePosudena = true;
+                break;
+            }
+        }
+
         if(event.getSource().equals(btnUnesiPodatke)){
             opremaDAO.unesiPodatke(oprema);
             pokaziListuOpreme();
@@ -83,8 +89,15 @@ public class PopisOpremeController implements Initializable {
             opremaDAO.azurirajPodatke(oprema);
             pokaziListuOpreme();
         }
-        else if(event.getSource().equals(btnIzbrisi)){
+        else if(event.getSource().equals(btnIzbrisi) && !opremaJePosudena){
             opremaDAO.izbrisiPodatke(oprema);
+            pokaziListuOpreme();
+        }
+        else if(event.getSource().equals(btnIzbrisi)) {
+//            Alert alert = new Alert(Alert.AlertType.WARNING);
+//            alert.setTitle("Warning");
+//            alert.setHeaderText("Warning");
+//            alert.setContentText("Ne možete obrisati opremu koja je trenutno posuđena studentu.");
             pokaziListuOpreme();
         }
     }

@@ -2,6 +2,7 @@ package zavrsnirad.posudbaopremeizlabosa.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import zavrsnirad.posudbaopremeizlabosa.model.Oprema;
 
 import java.sql.Connection;
@@ -47,6 +48,27 @@ public class PopisOpremeDAOImpl implements OpremaDAO{
         ObservableList<Oprema> listaOpreme = FXCollections.observableArrayList();
         Connection connection = Database.getConnection();
         String query = "SELECT * FROM oprema";
+        Statement statement;
+        ResultSet resultSet;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+            Oprema oprema;
+            while (resultSet.next()){
+                oprema = new Oprema(resultSet.getInt("id"), resultSet.getString("naziv"), resultSet.getString("detalji"), resultSet.getInt("kolicina"), null);
+                listaOpreme.add(oprema);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listaOpreme;
+    }
+    @Override
+    public ObservableList<Oprema> dohvatiListuPosudeneOpreme() throws SQLException {
+        ObservableList<Oprema> listaOpreme = FXCollections.observableArrayList();
+        Connection connection = Database.getConnection();
+        String query = "SELECT * FROM posudenaoprema";
         Statement statement;
         ResultSet resultSet;
 

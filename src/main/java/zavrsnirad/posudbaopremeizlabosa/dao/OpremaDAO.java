@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public interface OpremaDAO extends DAO<Oprema>{
     ObservableList<Oprema> dohvatiListuOpreme() throws SQLException;
-
+    ObservableList<Oprema> dohvatiListuPosudeneOpreme() throws SQLException;
     ObservableList<Oprema> dohvatiListuPosudeneOpremeStudentu(String jmbag) throws SQLException;
     Boolean imamLiVecTajId(Integer id) throws SQLException;
     Boolean imamLiVecTajJMBAGUzId(Integer id, Integer jmbag) throws SQLException;
