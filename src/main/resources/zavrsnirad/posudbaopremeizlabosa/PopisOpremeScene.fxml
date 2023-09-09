@@ -50,5 +50,8 @@
       <Button fx:id="btnIzbrisi" layoutX="220.0" layoutY="309.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="77.0" text="Izbriši" />
       <Button fx:id="btnAzuriraj" layoutX="127.0" layoutY="309.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="77.0" text="Ažuriraj" />
       <Button fx:id="btnUnesiPodatke" layoutX="127.0" layoutY="276.0" mnemonicParsing="false" onAction="#pritisakGumba" prefHeight="25.0" prefWidth="170.0" text="Unesi podatke" />
+      <TextField fx:id="tfSearch" layoutX="319.0" layoutY="35.0" promptText="Search" />
+      <Label layoutX="319.0" layoutY="423.0" text="Napomena!" />
+      <Label layoutX="319.0" layoutY="440.0" text="Opremu nije moguće izbrisati iz evidencije ako je posuđena studentu." />
    </children>
 </AnchorPane>

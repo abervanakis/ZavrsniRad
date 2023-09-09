@@ -13,7 +13,6 @@ public interface OpremaDAO extends DAO<Oprema>{
     Boolean imamLiVecTajJMBAGUzId(Integer id, Integer jmbag) throws SQLException;
     Integer pronadiKolicinuPosudeneOpreme(Integer id, Integer jmbagStudenta) throws SQLException;
     Integer pronadiKolicinuDostupneOpreme(Integer id) throws SQLException;
-
     void unesiPodatkeKomplicirano(Integer kolicina, Integer id, Integer jmbag) throws SQLException;
     void izbrisiPodatkeKomplicirano(Integer kolicina, Integer id, Integer jmbag) throws SQLException;
 

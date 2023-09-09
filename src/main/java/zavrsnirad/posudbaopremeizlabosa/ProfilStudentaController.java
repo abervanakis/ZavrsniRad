@@ -2,6 +2,8 @@ package zavrsnirad.posudbaopremeizlabosa;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 public class ProfilStudentaController implements Initializable {
 
@@ -37,6 +40,8 @@ public class ProfilStudentaController implements Initializable {
     private Label lbEmail;
     @FXML
     private Label lbTelefon;
+    @FXML
+    private TextField tfSearchDostupnaOprema;
     @FXML
     private TextField tfID;
     @FXML
@@ -70,7 +75,30 @@ public class ProfilStudentaController implements Initializable {
     @FXML
     private Button btnIzbrisi;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //TODO
+        try {
+            searchFilterDostupnaOprema();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pokaziListuOpreme();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        Platform.runLater(() -> {
+            try {
+                pokaziListuPosudeneOpremeStudentu();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
     private Student odabraniStudent;
+
     public void initData(Student student) {
         odabraniStudent = student;
 
@@ -110,22 +138,6 @@ public class ProfilStudentaController implements Initializable {
         tfKolicina.setText("" +oprema.getKolicina());
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        //TODO
-        try {
-            pokaziListuOpreme();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        Platform.runLater(() -> {
-            try {
-                pokaziListuPosudeneOpremeStudentu();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
     public void pokaziListuOpreme() throws SQLException {
 
         OpremaDAO opremaDAO = new PopisOpremeDAOImpl();
@@ -160,11 +172,43 @@ public class ProfilStudentaController implements Initializable {
             opremaDAO.unesiPodatkeKomplicirano(Integer.parseInt(tfKolicina.getText()), Integer.parseInt(tfID.getText()), Integer.parseInt(lbJMBAG.getText()));
             pokaziListuPosudeneOpremeStudentu();
             pokaziListuOpreme();
+
         }
         else if(event.getSource().equals(btnIzbrisi)){
             opremaDAO.izbrisiPodatkeKomplicirano(Integer.parseInt(tfKolicina.getText()), Integer.parseInt(tfID.getText()), Integer.parseInt(lbJMBAG.getText()));
             pokaziListuPosudeneOpremeStudentu();
             pokaziListuOpreme();
         }
+    }
+    @FXML
+    private void searchFilterDostupnaOprema() throws SQLException {
+        OpremaDAO oprematDAO = new PopisOpremeDAOImpl();
+        ObservableList<Oprema> listaOpreme = oprematDAO.dohvatiListuOpreme();
+        FilteredList<Oprema> filtriranaListaOpreme = new FilteredList<Oprema>(listaOpreme, e -> true);
+        tfSearchDostupnaOprema.setOnKeyReleased(e -> {
+
+            tfSearchDostupnaOprema.textProperty().addListener((observable, oldValue, newValue) -> {
+                filtriranaListaOpreme.setPredicate((Predicate<? super Oprema>) oprema -> {
+                    if (newValue == null) {
+                        return true;
+                    }
+                    String toLowerCaseFilter = newValue.toLowerCase();
+                    if (oprema.getId().toString().toLowerCase().contains(newValue)) {
+                        return true;
+                    } else if (oprema.getNaziv().toLowerCase().contains(toLowerCaseFilter)) {
+                        return true;
+                    } else if (oprema.getDetalji().toLowerCase().contains(toLowerCaseFilter)) {
+                        return true;
+                    } else if (oprema.getKolicina().toString().toLowerCase().contains(toLowerCaseFilter)) {
+                        return true;
+                    }
+
+                    return false;
+                });
+            });
+            final SortedList<Oprema> opremaSortedList = new SortedList<>(filtriranaListaOpreme);
+            opremaSortedList.comparatorProperty().bind(tvDostupnaOprema.comparatorProperty());
+            tvDostupnaOprema.setItems(opremaSortedList);
+        });
     }
 }

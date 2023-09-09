@@ -66,6 +66,20 @@ public class PopisStudenataController extends Excel implements Initializable {
     @FXML
     private Button btnUnesiPodatkeIzExcela;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //TODO
+        try {
+            searchFilter();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pokaziListuStudenata();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void promijeniNaPopisOpreme(ActionEvent event) throws IOException {
         Parent popisOpreme = FXMLLoader.load(getClass().getResource("PopisOpremeScene.fxml"));
         Scene popisOpremeScene = new Scene(popisOpreme);
@@ -127,20 +141,7 @@ public class PopisStudenataController extends Excel implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        //TODO
-        try {
-            searchFilter();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pokaziListuStudenata();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     @FXML
     private void searchFilter() throws SQLException {

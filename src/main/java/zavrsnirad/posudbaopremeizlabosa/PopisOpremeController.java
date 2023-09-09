@@ -1,6 +1,8 @@
 package zavrsnirad.posudbaopremeizlabosa;
 
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,14 +16,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import zavrsnirad.posudbaopremeizlabosa.dao.OpremaDAO;
 import zavrsnirad.posudbaopremeizlabosa.dao.PopisOpremeDAOImpl;
+import zavrsnirad.posudbaopremeizlabosa.dao.PopisStudenataDAOImpl;
+import zavrsnirad.posudbaopremeizlabosa.dao.StudentDAO;
 import zavrsnirad.posudbaopremeizlabosa.model.Oprema;
 import zavrsnirad.posudbaopremeizlabosa.model.Student;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 public class PopisOpremeController implements Initializable {
+    @FXML
+    private TextField tfSearch;
     @FXML
     private TextField tfID;
     @FXML
@@ -47,6 +54,20 @@ public class PopisOpremeController implements Initializable {
     @FXML
     private Button btnIzbrisi;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //TODO
+        try {
+            searchFilter();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pokaziListuOpreme();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void promijeniNaPopisStudenata(ActionEvent event) throws IOException {
         Parent popisOpreme = FXMLLoader.load(getClass().getResource("PopisStudenataScene.fxml"));
@@ -72,15 +93,6 @@ public class PopisOpremeController implements Initializable {
         OpremaDAO opremaDAO = new PopisOpremeDAOImpl();
         Oprema oprema = new Oprema(Integer.parseInt(tfID.getText()), tfNaziv.getText(), tfDetalji.getText(), Integer.parseInt(tfKolicina.getText()), null);
 
-        ObservableList<Oprema> listaOpreme = opremaDAO.dohvatiListuPosudeneOpreme();
-        boolean opremaJePosudena = false;
-        for(Oprema posudenaOprema : listaOpreme) {
-            if(posudenaOprema.getId().equals(oprema.getId())) {
-                opremaJePosudena = true;
-                break;
-            }
-        }
-
         if(event.getSource().equals(btnUnesiPodatke)){
             opremaDAO.unesiPodatke(oprema);
             pokaziListuOpreme();
@@ -89,26 +101,11 @@ public class PopisOpremeController implements Initializable {
             opremaDAO.azurirajPodatke(oprema);
             pokaziListuOpreme();
         }
-        else if(event.getSource().equals(btnIzbrisi) && !opremaJePosudena){
-            opremaDAO.izbrisiPodatke(oprema);
-            pokaziListuOpreme();
-        }
         else if(event.getSource().equals(btnIzbrisi)) {
-//            Alert alert = new Alert(Alert.AlertType.WARNING);
-//            alert.setTitle("Warning");
-//            alert.setHeaderText("Warning");
-//            alert.setContentText("Ne možete obrisati opremu koja je trenutno posuđena studentu.");
+            if(!opremaJePosudenaStudentu(oprema)) {
+                opremaDAO.izbrisiPodatke(oprema);
+            }
             pokaziListuOpreme();
-        }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        //TODO
-        try {
-            pokaziListuOpreme();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -122,5 +119,50 @@ public class PopisOpremeController implements Initializable {
         colKolicina.setCellValueFactory(new PropertyValueFactory<Student, Integer>("kolicina"));
 
         tvOprema.setItems(listaOpreme);
+    }
+
+    public boolean opremaJePosudenaStudentu(Oprema oprema) throws SQLException {
+        OpremaDAO opremaDAO = new PopisOpremeDAOImpl();
+        ObservableList<Oprema> listaOpreme = opremaDAO.dohvatiListuPosudeneOpreme();
+        boolean opremaJePosudena = false;
+        for(Oprema posudenaOprema : listaOpreme) {
+            if(posudenaOprema.getId().equals(oprema.getId())) {
+                opremaJePosudena = true;
+                break;
+            }
+        }
+        return opremaJePosudena;
+    }
+
+    @FXML
+    private void searchFilter() throws SQLException {
+        OpremaDAO oprematDAO = new PopisOpremeDAOImpl();
+        ObservableList<Oprema> listaOpreme = oprematDAO.dohvatiListuOpreme();
+        FilteredList<Oprema> filtriranaListaOpreme = new FilteredList<Oprema>(listaOpreme, e -> true);
+        tfSearch.setOnKeyReleased(e -> {
+
+            tfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+                filtriranaListaOpreme.setPredicate((Predicate<? super Oprema>) oprema -> {
+                    if (newValue == null) {
+                        return true;
+                    }
+                    String toLowerCaseFilter = newValue.toLowerCase();
+                    if (oprema.getId().toString().toLowerCase().contains(newValue)) {
+                        return true;
+                    } else if (oprema.getNaziv().toLowerCase().contains(toLowerCaseFilter)) {
+                        return true;
+                    } else if (oprema.getDetalji().toLowerCase().contains(toLowerCaseFilter)) {
+                        return true;
+                    } else if (oprema.getKolicina().toString().toLowerCase().contains(toLowerCaseFilter)) {
+                        return true;
+                    }
+
+                    return false;
+                });
+            });
+            final SortedList<Oprema> opremaSortedList = new SortedList<>(filtriranaListaOpreme);
+            opremaSortedList.comparatorProperty().bind(tvOprema.comparatorProperty());
+            tvOprema.setItems(opremaSortedList);
+        });
     }
 }
